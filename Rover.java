@@ -15,6 +15,7 @@ public class Rover
     private boolean isAlive = true;
     private int health;
     private int batterylf;
+    private int numPics;
     public void SetName(String name)
     {
         this.name = name;
@@ -29,36 +30,55 @@ public class Rover
         this.health = 100;
         this.isAlive = true;
         this.batterylf = 100;
+        this.numPics = 0;
     }
+    
+    ///public String piclist(list[]){
+    //   args.add=[];
+    //}
+    private String getDirectionName(int num){
+        if(dir == 0){
+            return "North";
+        }
+        if(dir == 1){
+            return "East";
+        }
+        if(dir == 2){
+            return "South";
+        }
+        else{
+            return "West";
+        }
+     }
     
     
     // methods - stuff the Rover can do
-    public void move()
+    public void move(int x)
     {
         if(isAlive == true){
-            this.batterylf -= 2;
+            this.batterylf -= 2 * x;
             if (this.batterylf == 0){
                 this.isAlive = false;
             }
             else{
                 if (dir == 0)
                 {
-                    y += 1;
+                    y += x;
                 }
                 else if (dir == 1)
                 {
-                    x += 1;
+                    x += x;
                 }
                 else if (dir == 2)
                 {
-                    y -= 1;
+                    y -= x;
                 }
                 else 
                 {
-                    x -= 1;
+                    x -= x;
                 }
     
-                System.out.println(name + " moved in direction " + dir);
+                System.out.println(name + " moved in direction " + getDirectionName(dir));
             }
         }
         else{
@@ -66,28 +86,26 @@ public class Rover
         }
     }
     
-    public void rotateLeft() 
+    public void rotateLeft(int x) 
     {
         if(isAlive == true){
-            this.batterylf -= 1;
-            if (this.batterylf == 0){
+            this.batterylf -= 1 * x;
+            if (this.batterylf == 0 || isAlive == false){
                 this.isAlive = false;
+                System.out.println(name + " Is dead stop it");
             }
-            else{
-                dir -= 1;
-                
-                if (dir < 0)
-                {
-                    dir = 3;
-                }
-                
+
+            while(dir>3){
+                dir += 4;
                 System.out.println(name + " turned to the left");    
             }
-        }
-        else {
-            System.out.println(name + " Is dead stop it");
-        }
+         }
+       }
+    
+    public void recharge(int x){
+        this.batterylf += x;
     }
+    
     public void picture(){
         if(isAlive == true){
             this.batterylf -= 5;
@@ -99,6 +117,7 @@ public class Rover
         }
     }
     }
+    
     public void picture(Rover other){
         if(isAlive == true){
             this.batterylf -= 5;
@@ -110,6 +129,12 @@ public class Rover
         }
         }
     }
+    
+    public void teleport(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+    
     public void kill(Rover other){
         if(this.isAlive == true || other.isAlive == true){
             System.out.println(this.name + " oofs " + other.name);
@@ -120,6 +145,7 @@ public class Rover
             System.out.println(this.name + " is ded nibba");
         }
     }
+    
     public void suicide(){
         if(isAlive == true){
         this.batterylf -= 50;
@@ -131,6 +157,7 @@ public class Rover
             System.out.println("My advice call get them to call 1-800-273-8255 ");
         }}
     }
+    
     public void damamge(Rover other, double x){
         if (this.isAlive == true || other.isAlive == true){
             other.health -= x;
@@ -147,14 +174,15 @@ public class Rover
             }
         }
     }
-    public void rotateRight()
+    
+    public void rotateRight(int x)
     {
         if(isAlive == true){
-            dir += 1;
+            dir += x;
             
-            if (dir == 4)
-            {
-                dir = 0;
+
+            while(dir>3){
+                dir -=4;
             }
             
             System.out.println(name + " turned to the right");     
@@ -169,6 +197,6 @@ public class Rover
 
     public String toString() 
     {
-        return "Rover[name=" + name + ", x=" + x + ", y=" + y + ", dir=" + dir + "]";
+        return "Rover[name=" + name + ", x=" + x + ", y=" + y + ", direction=" + getDirectionName(dir) + "]";
     }
 }

@@ -12,30 +12,40 @@ public class RoverRunner
         Rover r1 = new Rover("Curiosity");
         Rover r2 = new Rover("Spirit");
         Rover r3 = new Rover("Noice");
-        System.out.println(r1);
-        
+        System.out.println(r2);
+        r2.rotateRight(1);
+        System.out.println(r2);
+        r2.rotateRight(7);
+        System.out.println(r2);
+        r2.rotateRight(1);
+        System.out.println(r2);
+         // 0=North, 1=East, 2=South, 3=West
+         
+        r2.teleport(20,40);
+        System.out.println(r2);
+        /**
         r3.SetName("gayyy");
         
-        r1.move();
+        r1.move(2);
         System.out.println(r1);
 
-        r1.rotateRight();
+        r1.rotateRight(3);
         System.out.println(r1);
         
-        r3.move();
+        r3.move(4);
         System.out.println(r3);
-        r3.move();
+        r3.move(2);
         System.out.println(r3);
-        r3.rotateRight();
+        r3.rotateRight(5);
         System.out.println(r3);
-        r2.rotateRight();
+        r2.rotateRight(3);
         for (int x=0; x<5; x++){
-            r2.move();
+            r2.move(4);
         }
         System.out.println(r2);
-        r2.rotateRight();
-        r2.move();
-        r2.move();
+        r2.rotateRight(7);
+        r2.move(1);
+        r2.move(4);
         System.out.println(r2);
         r2.picture();
         r2.picture(r3);
@@ -44,9 +54,8 @@ public class RoverRunner
         System.out.println();
         r2.damamge(r3, 74);
         System.out.println();
-        r1.move();
         System.out.println(r1);
-        
+        **/
         r1.kill(r2);
     }
 }
