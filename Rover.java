@@ -5,6 +5,7 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
+import java.util.ArrayList;
 public class Rover
 {
     // fields
@@ -16,9 +17,12 @@ public class Rover
     private int health;
     private int batterylf;
     private int numPics;
+    private ArrayList<Picture> pics;
+    
     public void SetName(String name)
     {
         this.name = name;
+        this.pics = new ArrayList<Picture>();
     }
     // constructor(s)
     public Rover(String name)
@@ -31,11 +35,9 @@ public class Rover
         this.isAlive = true;
         this.batterylf = 100;
         this.numPics = 0;
+        this.pics = new ArrayList<Picture>();
     }
     
-    ///public String piclist(list[]){
-    //   args.add=[];
-    //}
     private String getDirectionName(int num){
         if(dir == 0){
             return "North";
@@ -53,7 +55,7 @@ public class Rover
     
     
     // methods - stuff the Rover can do
-    public void move(int x)
+    public void move(int dist)
     {
         if(isAlive == true){
             this.batterylf -= 2 * x;
@@ -63,19 +65,19 @@ public class Rover
             else{
                 if (dir == 0)
                 {
-                    y += x;
+                    y += dist;
                 }
                 else if (dir == 1)
                 {
-                    x += x;
+                    x += dist;
                 }
                 else if (dir == 2)
                 {
-                    y -= x;
+                    y -= dist;
                 }
                 else 
                 {
-                    x -= x;
+                    x -= dist;
                 }
     
                 System.out.println(name + " moved in direction " + getDirectionName(dir));
@@ -106,29 +108,17 @@ public class Rover
         this.batterylf += x;
     }
     
-    public void picture(){
-        if(isAlive == true){
-            this.batterylf -= 5;
-            if (this.batterylf == 0){
-                this.isAlive = false;
-            }
-            else{
-            System.out.println(name + " Takes a bad selfie #feelsBadMan");
-        }
-    }
+    public void takepicture(){
+        Picture p = new Picture(x,y,dir,name);
+        pics.add(p);
     }
     
-    public void picture(Rover other){
-        if(isAlive == true){
-            this.batterylf -= 5;
-            if (this.batterylf == 0){
-                this.isAlive = false;
-            }
-            else{
-            System.out.println(this.name + " Takes a glamore shot of " + other);
-        }
+    public void sendpictures(){
+        for(Picture p: pics){
+            System.out.println(p);
         }
     }
+    
     
     public void teleport(int x, int y){
         this.x = x;

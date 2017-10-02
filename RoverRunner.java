@@ -23,6 +23,18 @@ public class RoverRunner
          
         r2.teleport(20,40);
         System.out.println(r2);
+        
+        System.out.println();
+        
+        r2.takepicture();
+        r2.move(4);
+        r2.takepicture();
+        r2.rotateRight(2);
+        r2.move(5);
+        r2.takepicture();
+
+        System.out.println();
+        r2.sendpictures();
         /**
         r3.SetName("gayyy");
         
