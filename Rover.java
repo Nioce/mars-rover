@@ -53,7 +53,9 @@ public class Rover
         }
      }
     
-    
+    public String getName() {
+        return name;
+    }
     // methods - stuff the Rover can do
     public void move(int dist)
     {
@@ -88,7 +90,7 @@ public class Rover
         }
     }
     
-    public void rotateLeft(int x) 
+    public void rotateLeft(int xx) 
     {
         if(isAlive == true){
             this.batterylf -= 1 * x;
@@ -104,7 +106,7 @@ public class Rover
          }
        }
     
-    public void recharge(int x){
+    public void recharge(int xx){
         this.batterylf += x;
     }
     
@@ -120,7 +122,7 @@ public class Rover
     }
     
     
-    public void teleport(int x, int y){
+    public void teleport(int xx, int yy){
         this.x = x;
         this.y = y;
     }
@@ -148,7 +150,7 @@ public class Rover
         }}
     }
     
-    public void damamge(Rover other, double x){
+    public void damamge(Rover other, double xx){
         if (this.isAlive == true || other.isAlive == true){
             other.health -= x;
             System.out.println(this.name + " did " + x + " damage to " + other.name);
@@ -165,7 +167,7 @@ public class Rover
         }
     }
     
-    public void rotateRight(int x)
+    public void rotateRight(int xx)
     {
         if(isAlive == true){
             dir += x;
