@@ -5,6 +5,7 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
+import java.util.List;
 import java.util.ArrayList;
 public class Rover
 {
@@ -106,13 +107,17 @@ public class Rover
          }
        }
     
+    public void batteryamount(){
+        System.out.println(batterylf);
+    }
     public void recharge(int xx){
-        this.batterylf += x;
+        this.batterylf += xx;
     }
     
     public void takepicture(){
         Picture p = new Picture(x,y,dir,name);
         pics.add(p);
+        System.out.println("Picture taken");
     }
     
     public void sendpictures(){

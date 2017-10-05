@@ -32,4 +32,8 @@ public class RoverGroup {
         
         return null;
     }
+    
+    public List<Rover> getAllRovers() {
+     return rovers;   
+    }
 }
