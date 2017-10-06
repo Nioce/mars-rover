@@ -55,24 +55,26 @@ public class RoverRunner
                 System.out.println("9. Take Picture");
                 System.out.println("10. Send Pictures");
                 System.out.println("11. Suicide");
+                System.out.println("12. Heal");
+                System.out.println("13. Get Direction");
                 System.out.println();
                 if (command.equals("1")) {
-                    System.out.print("Enter distance to move: ");
+                    System.out.println("Enter distance to move: ");
                     int distance = input.readInt();
                     actor.move(distance);
                 }
                 else if (command.equals("2")) {
-                    System.out.print("Enter amount to rotate to the right ");
+                    System.out.println("Enter amount to rotate to the right ");
                     int rotate = input.readInt();
                     actor.rotateRight(rotate);
                 }
                 else if (command.equals("3")) {
-                    System.out.print("Enter amount to rotate to the left ");
+                    System.out.println("Enter amount to rotate to the left ");
                     int rotate = input.readInt();
                     actor.rotateLeft(rotate);
                 }
                 else if (command.equals("5")) {
-                    System.out.print("Enter amount Recharge the rover");
+                    System.out.println("Enter amount Recharge the rover");
                     int amount = input.readInt();
                     actor.recharge(amount);
                 }
@@ -80,7 +82,7 @@ public class RoverRunner
                     actor.batteryamount();
                 }
                 else if (command.equals("7")) {
-                    System.out.print("Enter the name the target rover: ");
+                    System.out.println("Enter the name the target rover: ");
                     String targetName = input.readString();
                     
                     Rover target = group.find(targetName);
@@ -99,18 +101,25 @@ public class RoverRunner
                 else if (command.equals("10")) {
                     actor.sendpictures();
                 }
+               
                 else if (command.equals("8")) {
-                    System.out.print("Enter the x cord to go to");
+                    System.out.println();
+                    System.out.println("Enter the x cord to go to");
                     int ss = input.readInt();
-                    System.out.print("Enter the y cord to go to");
+                    System.out.println("Enter the y cord to go to");
                     int bb = input.readInt();
                     actor.teleport(ss, bb);
+                }
+                else if (command.equals("12")){
+                    System.out.print("Enter the amount to heal");
+                    int ss = input.readInt();
+                    actor.heal(ss);
                 }
                 else if (command.equals("11")) {
                     actor.suicide();
                 }
                 else if (command.equals("4")) {
-                    System.out.print("Enter the name the target rover: ");
+                    System.out.println("Enter the name the target rover: ");
                     String targetName = input.readString();
                     
                     Rover target = group.find(targetName);

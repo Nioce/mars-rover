@@ -7,6 +7,7 @@
  */
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 public class Rover
 {
     // fields
@@ -61,9 +62,10 @@ public class Rover
     public void move(int dist)
     {
         if(isAlive == true){
-            this.batterylf -= 2 * x;
+            this.batterylf -= 2 * dist;
             if (this.batterylf == 0){
                 this.isAlive = false;
+                System.out.println("He ded he cant do this, power = " + batterylf);
             }
             else{
                 if (dir == 0)
@@ -93,8 +95,8 @@ public class Rover
     
     public void rotateLeft(int xx) 
     {
-        if(isAlive == true){
-            this.batterylf -= 1 * x;
+        if(isAlive == true && batterylf > 0){
+            this.batterylf -= 1 * xx;
             if (this.batterylf == 0 || isAlive == false){
                 this.isAlive = false;
                 System.out.println(name + " Is dead stop it");
@@ -115,24 +117,50 @@ public class Rover
     }
     
     public void takepicture(){
-        Picture p = new Picture(x,y,dir,name);
-        pics.add(p);
-        System.out.println("Picture taken");
+        if (numPics < 5 && batterylf <= 1 && isAlive == true ){
+            System.out.println();
+            Picture p = new Picture(x,y,dir,name);
+            pics.add(p);
+            System.out.println("Picture taken");
+        }
+        if (numPics > 5){
+            System.out.println("Please send all transmite the pictures to clear the cache, so you can take more pictures");
+        }
+        else{
+            System.out.println("He ded he cant do this, power = " + batterylf);
+        }
     }
     
     public void sendpictures(){
-        for(Picture p: pics){
-            System.out.println(p);
+        if (batterylf == 0 || isAlive == false){
+            System.out.println("He ded he cant do this, power = " + batterylf);
         }
+        else{
+            for(Picture p: pics){
+                System.out.println(p);
+                this.batterylf -= 4;
+            }
+        }
+        numPics = 0;
     }
     
     
     public void teleport(int xx, int yy){
-        this.x = x;
-        this.y = y;
+        System.out.println();
+        int xb = (int)((xx + yy)/2);
+        this.batterylf -= 5 * xb;
+        if (batterylf == 0 || isAlive == false){
+            System.out.println("He ded he cant do this, power = " + batterylf);
+        }
+            else{
+            this.x = xx;
+            this.y = yy;
+            System.out.println("SPAPSGSDGOSNGSINGIRGSGIN, *has teleported too* x = " + xx + " y = " + yy);
+        }
     }
     
     public void kill(Rover other){
+        System.out.println();
         if(this.isAlive == true || other.isAlive == true){
             System.out.println(this.name + " oofs " + other.name);
             other.isAlive = false;
@@ -144,6 +172,7 @@ public class Rover
     }
     
     public void suicide(){
+        System.out.println();
         if(isAlive == true){
         this.batterylf -= 50;
             if (this.batterylf == 0){
@@ -154,20 +183,32 @@ public class Rover
             System.out.println("My advice call get them to call 1-800-273-8255 ");
         }}
     }
-    
+    public void heal(int xx){
+        this.health += xx;
+    }
     public void damamge(Rover other, double xx){
         if (this.isAlive == true || other.isAlive == true){
-            other.health -= x;
-            System.out.println(this.name + " did " + x + " damage to " + other.name);
+            System.out.println();
+            int random = (int )(Math.random() * 25 + 1);
+            int rr = (int )(Math.random() * 100 + 1);
+            other.health -= xx;
+            other.health -= random;
+            this.health -= rr;
+            int xb = (int)(xx+random);
+            System.out.println(this.name + " did " + xb + " damage to " + other.name);
+            System.out.println(this.name + " Took " + rr + " From " + other.name);
             if (other.health > 0){
                 other.isAlive = true;
                 System.out.println(other.name + " Now has " + other.health + " health");
+                System.out.println(this.name + " Now has " + this.health + " health");
             }
             else{
                 other.isAlive = false;
                 other.health = 0;
                 System.out.println(other.name + " Now has " + other.health + " health");
                 System.out.println(other.name + " Has been killed by " + this.name);
+                System.out.println();
+                System.out.println(this.name + " Now has " + this.health + " health");
             }
         }
     }
