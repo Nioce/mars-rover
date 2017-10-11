@@ -19,16 +19,11 @@ public class Rover
     private int health;
     private int batterylf;
     private int numPics;
+    private int memory = 5;
     private ArrayList<Picture> pics;
     
-    public void SetName(String name)
-    {
-        this.name = name;
-        this.pics = new ArrayList<Picture>();
-    }
     // constructor(s)
-    public Rover(String name)
-    {
+    public Rover(String name) {
         this.name = name;
         this.x = 0;
         this.y = 0;
@@ -40,102 +35,129 @@ public class Rover
         this.pics = new ArrayList<Picture>();
     }
     
-    private String getDirectionName(int num){
-        if(dir == 0){
-            return "North";
-        }
-        if(dir == 1){
-            return "East";
-        }
-        if(dir == 2){
-            return "South";
-        }
-        else{
-            return "West";
-        }
-     }
+    // methods - stuff the Rover can do
+    public void setName(String name) {
+        this.name = name;
+        this.pics = new ArrayList<Picture>();
+    }
+
     
     public String getName() {
         return name;
     }
-    // methods - stuff the Rover can do
-    public void move(int dist)
-    {
-        if(isAlive == true){
+    
+    private String getDirectionName() {
+        if (dir == 0) {
+            return "North";
+        }
+        else if (dir == 1) {
+            return "East";
+        }
+        else if (dir == 2) {
+            return "South";
+        }
+        else {
+            return "West";
+        }
+     }
+
+    public void move(int dist) {
+        if(isAlive == true) {
             this.batterylf -= 2 * dist;
-            if (this.batterylf == 0){
+            
+            if (this.batterylf == 0) {
                 this.isAlive = false;
                 System.out.println("He ded he cant do this, power = " + batterylf);
             }
-            else{
-                if (dir == 0)
-                {
+            else {
+                if (dir == 0) {
                     y += dist;
                 }
-                else if (dir == 1)
-                {
+                else if (dir == 1) {
                     x += dist;
                 }
-                else if (dir == 2)
-                {
+                else if (dir == 2) {
                     y -= dist;
                 }
-                else 
-                {
+                else {
                     x -= dist;
                 }
     
-                System.out.println(name + " moved in direction " + getDirectionName(dir));
+                System.out.println(name + " moved in direction " + getDirectionName());
             }
         }
-        else{
+        else {
             System.out.println(name + " Has hit that o o f button ");
         }
     }
     
-    public void rotateLeft(int xx) 
+    public void rotateRight(int turns)
     {
-        if(isAlive == true && batterylf > 0){
-            this.batterylf -= 1 * xx;
-            if (this.batterylf == 0 || isAlive == false){
+        if(isAlive == true){
+            dir += turns;
+            
+
+            while(dir > 3){
+                dir -=4;
+            }
+            
+            System.out.println(name + " turned to the right");     
+        }
+        else{
+            System.out.println(name + " OML STIOP HES DEAD");
+        }
+    
+    }
+    
+    public void rotateLeft(int turns) 
+    {
+        if(isAlive == true && batterylf > 0) {
+            this.batterylf -= 1 * turns;
+            
+            if (this.batterylf == 0 || isAlive == false) {
                 this.isAlive = false;
                 System.out.println(name + " Is dead stop it");
             }
 
-            while(dir>3){
+            while(dir > 3) {
                 dir += 4;
                 System.out.println(name + " turned to the left");    
             }
-         }
-       }
+        }
+    }
     
-    public void batteryamount(){
+    public void showBatteryLife() {
         System.out.println(batterylf);
     }
-    public void recharge(int xx){
+    
+    public void recharge(int xx) {
         this.batterylf += xx;
     }
-    
-    public void takepicture(){
-        if (numPics < 5 && batterylf <= 1 && isAlive == true ){
+    public void revive(){
+        this.isAlive = true;
+        
+    }
+    public void takePicture(){
+        if (numPics < memory && batterylf > 0 && isAlive == true ) {
             System.out.println();
             Picture p = new Picture(x,y,dir,name);
             pics.add(p);
+            
             System.out.println("Picture taken");
         }
-        if (numPics > 5){
+        else if (numPics > memory) {
             System.out.println("Please send all transmite the pictures to clear the cache, so you can take more pictures");
         }
-        else{
+        else {
             System.out.println("He ded he cant do this, power = " + batterylf);
         }
     }
     
-    public void sendpictures(){
-        if (batterylf == 0 || isAlive == false){
+    public void sendPictures(){
+        if (batterylf == 0 || isAlive == false) {
             System.out.println("He ded he cant do this, power = " + batterylf);
         }
-        else{
+        else {
             for(Picture p: pics){
                 System.out.println(p);
                 this.batterylf -= 4;
@@ -144,65 +166,82 @@ public class Rover
         numPics = 0;
     }
     
-    
-    public void teleport(int xx, int yy){
+    public void teleport(int x, int y){ 
         System.out.println();
-        int xb = (int)((xx + yy)/2);
-        this.batterylf -= 5 * xb;
+        
+        this.batterylf -= (Math.abs(this.x - x) + Math.abs(this.y - y))/2;
+        
         if (batterylf == 0 || isAlive == false){
             System.out.println("He ded he cant do this, power = " + batterylf);
         }
-            else{
-            this.x = xx;
-            this.y = yy;
-            System.out.println("SPAPSGSDGOSNGSINGIRGSGIN, *has teleported too* x = " + xx + " y = " + yy);
+        else{
+            this.x = x;
+            this.y = y;
+            
+            System.out.println("SPAPSGSDGOSNGSINGIRGSGIN, *has teleported too* x = " + x + " y = " + y);
         }
     }
     
+    //public void aliveornot() {
+    //    return this.isAlive;
+    //}
+    
     public void kill(Rover other){
         System.out.println();
-        if(this.isAlive == true || other.isAlive == true){
+        
+        if(this.isAlive == true || other.isAlive == true) {
             System.out.println(this.name + " oofs " + other.name);
             other.isAlive = false;
             other.health = 0;
         }
-        else{
+        else {
             System.out.println(this.name + " is ded nibba");
         }
     }
     
-    public void suicide(){
+    public void commitSuicide() {
         System.out.println();
-        if(isAlive == true){
-        this.batterylf -= 50;
-            if (this.batterylf == 0){
+        
+        if(isAlive == true) {
+            
+            this.batterylf -= 50;
+            
+            if (this.batterylf == 0) {
                 this.isAlive = false;
             }
-            else{
-            System.out.println(this.name + " tried to kill them selves ");
-            System.out.println("My advice call get them to call 1-800-273-8255 ");
-        }}
+            else {
+                System.out.println(this.name + " tried to kill them selves ");
+                System.out.println("My advice call get them to call 1-800-273-8255");
+            }
+        }
     }
-    public void heal(int xx){
-        this.health += xx;
+    
+    public void heal(int amount) {
+        this.health += amount;
     }
-    public void damamge(Rover other, double xx){
-        if (this.isAlive == true || other.isAlive == true){
+    
+    public void damamge(Rover other, int amount) {
+        if (this.isAlive == true || other.isAlive == true) {
             System.out.println();
-            int random = (int )(Math.random() * 25 + 1);
-            int rr = (int )(Math.random() * 100 + 1);
-            other.health -= xx;
-            other.health -= random;
-            this.health -= rr;
-            int xb = (int)(xx+random);
-            System.out.println(this.name + " did " + xb + " damage to " + other.name);
-            System.out.println(this.name + " Took " + rr + " From " + other.name);
-            if (other.health > 0){
+            
+            int smallRandom = (int)(Math.random() * 25 + 1);
+            int largeRandom = (int)(Math.random() * 100 + 1);
+                        
+            int damageApplied = amount + smallRandom;
+            int damageTaken = largeRandom;
+            
+            other.health -= damageApplied;
+            this.health -= damageTaken;
+            
+            System.out.println(this.name + " did " + damageApplied + " damage to " + other.name);
+            System.out.println(this.name + " Took " + damageTaken + " From " + other.name);
+            
+            if (other.health > 0) {
                 other.isAlive = true;
                 System.out.println(other.name + " Now has " + other.health + " health");
                 System.out.println(this.name + " Now has " + this.health + " health");
             }
-            else{
+            else {
                 other.isAlive = false;
                 other.health = 0;
                 System.out.println(other.name + " Now has " + other.health + " health");
@@ -213,28 +252,12 @@ public class Rover
         }
     }
     
-    public void rotateRight(int xx)
-    {
-        if(isAlive == true){
-            dir += x;
-            
-
-            while(dir>3){
-                dir -=4;
-            }
-            
-            System.out.println(name + " turned to the right");     
-        }
-        else{
-            System.out.println(name + " OML STIOP HES DEAD");
-        }
-        
-        
-    
+    public void downloadMoreRam(int amount) {
+        memory += amount;
     }
 
     public String toString() 
     {
-        return "Rover[name=" + name + ", x=" + x + ", y=" + y + ", direction=" + getDirectionName(dir) + "]";
+        return "Rover[name=" + name + ", x=" + x + ", y=" + y + ", direction=" + getDirectionName() + "]";
     }
 }

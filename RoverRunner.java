@@ -6,6 +6,9 @@
  * @version (a version number or a date)
  */
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+import java.lang.Thread;
+import java.lang.*;
 public class RoverRunner
 {
     public static void main(String[] arrrggggggs)
@@ -19,7 +22,7 @@ public class RoverRunner
         group.add(r1);
         group.add(r2);
         group.add(r3);
-
+        
         
         // Now let's do stuff
         boolean running = true;
@@ -27,22 +30,27 @@ public class RoverRunner
         
         while (running) {
             // Input name
-            System.out.println("Enter the name of the Rover to act: ");
+            for(int yy = 0; yy<20; yy++){
+                System.out.println();
+            }
             for(Rover r: group.getAllRovers()){
                 System.out.println("Rover "  + " = " +r.getName());
             }
-            
+            System.out.println("Enter the name of the Rover to act: ");
             String name = input.readString();
+            for(int yy = 0; yy<20; yy++){
+                System.out.println();
+            }
+
+            
             
             // Select Rover with matching name
             Rover actor = group.find(name);
-
+            
             if (actor != null) {
-                // If the rover is found
-                System.out.print("Enter a command: ");
-                String command = input.readString();
-                System.out.println();
                 System.out.println("Enter a number to select an option");
+                System.out.println("After every command you will need to-");
+                System.out.println("Re-enter the rover name");
                 System.out.println("===================================");
                 System.out.println("1. Move");
                 System.out.println("2. Rotate Right");
@@ -56,8 +64,13 @@ public class RoverRunner
                 System.out.println("10. Send Pictures");
                 System.out.println("11. Suicide");
                 System.out.println("12. Heal");
-                System.out.println("13. Get Direction");
+                System.out.println("13. Get Info of rover");
+                System.out.println("14. Revive a rover");
                 System.out.println();
+                System.out.print("Enter a command for " + actor + ": ");
+                String command = input.readString();
+                
+                // If the rover is foun
                 if (command.equals("1")) {
                     System.out.println("Enter distance to move: ");
                     int distance = input.readInt();
@@ -79,7 +92,7 @@ public class RoverRunner
                     actor.recharge(amount);
                 }
                 else if (command.equals("6")){
-                    actor.batteryamount();
+                    actor.showBatteryLife();
                 }
                 else if (command.equals("7")) {
                     System.out.println("Enter the name the target rover: ");
@@ -96,12 +109,14 @@ public class RoverRunner
                     }
                 }
                 else if (command.equals("9")) {
-                    actor.takepicture();
+                    actor.takePicture();
                 }
                 else if (command.equals("10")) {
-                    actor.sendpictures();
+                    actor.sendPictures();
                 }
-               
+                else if (command.equals("14")) {
+                    actor.revive();
+                }
                 else if (command.equals("8")) {
                     System.out.println();
                     System.out.println("Enter the x cord to go to");
@@ -116,7 +131,10 @@ public class RoverRunner
                     actor.heal(ss);
                 }
                 else if (command.equals("11")) {
-                    actor.suicide();
+                    actor.commitSuicide();
+                }
+                else if (command.equals("13")){
+                    System.out.println(actor);
                 }
                 else if (command.equals("4")) {
                     System.out.println("Enter the name the target rover: ");
@@ -136,7 +154,6 @@ public class RoverRunner
                     System.out.println("Error: Invalid command.");
                 }
                 
-                System.out.println(actor);
             }
             else if (name.equals(exitCommand)) {
                 running = false; // set flag to exit loop
